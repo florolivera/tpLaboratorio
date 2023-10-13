@@ -59,10 +59,25 @@ int main(void) {
         default:
            cout << "Opcion no válida." << endl;
             }
-for (int i=0;i<5;i++){
-      cartasjugador1[i] = rand()%20+1;
+        for (int i=0;i<5;i++){
+              cartasjugador1[i] = rand()%20+1;
 
 
-}
+        }
+        for (int i=0;i<5;i++){
+              cartasjugador2[i] = rand()%20+1;
+
+
+        }
+
+        cout<<"CARTAS DEL JUGADOR 1: "<<endl;
+        for (int i=0; i<5; i++)
+        {
+            cout<<cartas[cartasjugador1[i]]<<endl;
+        }
+
+
+
+
         return 0;
 }

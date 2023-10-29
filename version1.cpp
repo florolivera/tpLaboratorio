@@ -201,7 +201,7 @@ int main()
             string cartaEliminada;
 
             //ELIMINAR, PRUEBA....
-            dadoResultado = 1;
+            dadoResultado = 2;
             if(dadoResultado == 1)
             {
                 cout<<"seleccione una carta (1 - 5): "<<endl;
@@ -249,6 +249,45 @@ int main()
             }
             if(dadoResultado == 2)
             {
+                cout<<"seleccione una carta de su oponente (1 - 5): "<<endl;
+                if(jugadorComienza == 1)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                    cout << jugador2[i] <<"("<<i+1<<")"<< ": ";
+                    }
+                    cin>>cartaSeleccionada;
+                    cartaEliminada = jugador2[cartaSeleccionada - 1];
+                    jugador2[cartaSeleccionada - 1] = "";
+                    cout<<"Se intergambia la carta: "<<cartaEliminada<<endl;
+                    jugador2[cartaSeleccionada -1] = alMazo(jugador1, jugador2);
+                    cout<<"carta robada del mazo: "<<jugador2[cartaSeleccionada - 1];
+                    cout<<endl<<"Ahora el mazo de "<<jugadores2<<" quedo: "<<endl;
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] << " ";
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                    cout << jugador1[i] <<"("<<i+1<<")"<< ": ";
+                    }
+                    cin>>cartaSeleccionada;
+                    cartaEliminada = jugador1[cartaSeleccionada - 1];
+                    jugador1[cartaSeleccionada - 1] = "";
+                    cout<<"Se intergambia la carta: "<<cartaEliminada<<endl;
+                    jugador1[cartaSeleccionada -1] = alMazo(jugador1, jugador2);
+                    cout<<"carta robada del mazo: "<<jugador1[cartaSeleccionada - 1];
+                    cout<<endl<<"Ahora el mazo de "<<jugadores1<<" quedo: "<<endl;
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] << " ";
+                    }
+                }
 
             }
     }

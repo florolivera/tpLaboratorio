@@ -49,6 +49,16 @@ vector<int> contabilizar(const vector<string>& mano)
     return contadores;
 }
 
+/*===========================FUNCION CAMBIO DE ORDEN=====================*/
+vector<string> cambioOrden(vector<string>& vector1, int cartaSeleccionada1, int cartaSeleccionada2)
+{
+    string aux = vector1[cartaSeleccionada1 - 1];
+    vector1[cartaSeleccionada1 - 1] = vector1[cartaSeleccionada2 - 1];
+    vector1[cartaSeleccionada2 - 1] = aux;
+
+    return vector1;
+}
+
 /*===========================FUNCION PARA INTERCAMBIO===================*/
 
 vector<string> intercambio(vector<string>& vector1, vector<string>& vector2, const string& cartaSeleccionada1, const string& cartaSeleccionada2)
@@ -217,7 +227,20 @@ int main()
             string cartaEliminada;
 
             //ELIMINAR, PRUEBA....
-            dadoResultado = 3;
+            dadoResultado = 6;
+            if(dadoResultado == 6)
+            {
+                int accion;
+                cout<<"Elija la accion que quiere realizar(1-5): "<<endl;
+                cout<<"1- intercambiar una carta de su corral por una del mazo."<<endl;
+                cout<<"2- elegir una carta de su contrincante cambiarla por una del mazo."<<endl;
+                cout<<"3- elegir una carta de su contrincante para agregar a su corral."<<endl;
+                cout<<"4- intercambiar el orden de dos cartas de su corral."<<endl;
+                cout<<"5- bloquear carta de su corral para que el contrincante no accione sobre ella."<<endl;
+                cout<<"6- pasar de turno."<<endl;
+                cin>>accion;
+                dadoResultado = accion;
+            }
             if(dadoResultado == 1)
             {
                 cout<<endl<<"Seleccione una carta (1 - 5): "<<endl;
@@ -387,6 +410,53 @@ int main()
                         cout << jugador1[i] << " ";
                     }
                 }
+            }
+            if(dadoResultado == 4)
+            {
+                int cartaSeleccionada1, cartaSeleccionada2;
+
+                if(jugadorComienza == 1)
+                {
+                    cout<<"Seleccione las dos cartas para cambiar su orden: "<<endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] << "(" << i + 1 << "): ";
+                    }
+                    cout<<"Primer carta: ";
+                    cin>>cartaSeleccionada1;
+                    cout<<"Segunda carta: ";
+                    cin>>cartaSeleccionada2;
+
+                    jugador1 = cambioOrden(jugador1, cartaSeleccionada1, cartaSeleccionada2);
+
+                    cout<<"Resultado del corral de "<<jugadores1<<": "<<endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] << "(" << i + 1 << "): ";
+                    }
+
+                }
+                else
+                {
+                    cout<<"Seleccione las dos cartas para cambiar su orden: "<<endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] << "(" << i + 1 << "): ";
+                    }
+                    cout<<"Primer carta: ";
+                    cin>>cartaSeleccionada1;
+                    cout<<"Segunda carta: ";
+                    cin>>cartaSeleccionada2;
+
+                    jugador2 = cambioOrden(jugador2, cartaSeleccionada1, cartaSeleccionada2);
+
+                    cout<<"Resultado del corral de "<<jugadores1<<": "<<endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] << "(" << i + 1 << "): ";
+                    }
+                }
+
             }
     }
     else if(opcion == 2)

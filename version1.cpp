@@ -49,6 +49,22 @@ vector<int> contabilizar(const vector<string>& mano)
     return contadores;
 }
 
+/*===========================FUNCION PARA INTERCAMBIO===================*/
+
+vector<string> intercambio(vector<string>& vector1, vector<string>& vector2, const string& cartaSeleccionada1, const string& cartaSeleccionada2)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        if (vector1[i] == cartaSeleccionada1)
+        {
+            vector1[i] = cartaSeleccionada2;
+        }
+    }
+
+    return vector1;
+}
+
+
 
 /*=============================FUNCION PARA REPARTIR LAS CARTAS DE CADA CORRAL=======================*/
 vector<string> barajarCartas()
@@ -201,7 +217,7 @@ int main()
             string cartaEliminada;
 
             //ELIMINAR, PRUEBA....
-            dadoResultado = 2;
+            dadoResultado = 3;
             if(dadoResultado == 1)
             {
                 cout<<endl<<"Seleccione una carta (1 - 5): "<<endl;
@@ -236,7 +252,7 @@ int main()
                     jugador2[cartaSeleccionada - 1] = "";
                     cout<<"Se intercambia la carta: "<<cartaEliminada<<endl;
                     jugador2[cartaSeleccionada -1] = alMazo(jugador1, jugador2);
-                    cout<<"carta robada del mazo: "<<jugador2[cartaSeleccionada - 1];
+                    cout<<"Carta robada del mazo: "<<jugador2[cartaSeleccionada - 1];
                     cout<<endl<<"Ahora el mazo de "<<jugadores2<<" quedo: "<<endl;
 
                     for (int i = 0; i < 5; i++)
@@ -281,7 +297,7 @@ int main()
                     cout<<"Se intergambia la carta: "<<cartaEliminada<<endl;
                     jugador1[cartaSeleccionada -1] = alMazo(jugador1, jugador2);
                     cout<<"carta robada del mazo: "<<jugador1[cartaSeleccionada - 1];
-                    cout<<endl<<"Ahora el mazo de "<<jugadores1<<" quedo: "<<endl;
+                    cout<<endl<<"Ahora el mazo de "<<jugadores1<<" quedo: ";
 
                     for (int i = 0; i < 5; i++)
                     {
@@ -289,6 +305,88 @@ int main()
                     }
                 }
 
+            }
+            if(dadoResultado == 3)
+            {
+                int cartaPropia, cartaContrario;
+                string seleccionada1, seleccionada2;
+
+                if(jugadorComienza == 1)
+                {
+
+                    cout << "Seleccione la carta del corral de " << jugadores1 << ": " << endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] << "(" << i + 1 << "): ";
+                    }
+                    cin >> cartaPropia;
+                    seleccionada1 = jugador1[cartaPropia-1];
+
+                    cout << "Seleccione la carta del corral de " << jugadores2 << ": " << endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] << "(" << i + 1 << "): ";
+                    }
+                    cin >> cartaContrario;
+                    seleccionada2 = jugador2[cartaContrario-1];
+
+                    jugador1 = intercambio(jugador1, jugador2, seleccionada1, seleccionada2);
+                    jugador2 = intercambio(jugador2, jugador1, seleccionada2, seleccionada1);
+
+                    cout<<"Los corrales quedaron: "<<endl;
+                    cout<<"Corral de "<<jugadores1<<": ";
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] << " ";
+                    }
+                    cout<<endl<<"Corral de "<<jugadores2<<": ";
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] << " ";
+                    }
+
+
+
+
+
+
+                }
+                else
+                {
+                    cout << "Seleccione la carta del corral de " << jugadores2 << ": " << endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] << "(" << i + 1 << "): ";
+                    }
+                    cin >> cartaPropia;
+
+                    seleccionada1 = jugador1[cartaPropia - 1];
+
+
+
+                    cout << "Seleccione la carta del corral de " << jugadores1 << ": " << endl;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] << "(" << i + 1 << "): ";
+                    }
+                    cin >> cartaContrario;
+                    seleccionada2 = jugador2[cartaContrario - 1];
+                    jugador2 = intercambio(jugador2, jugador1, seleccionada2, seleccionada1);
+                    jugador1 = intercambio(jugador1, jugador2, seleccionada1, seleccionada2);
+
+                    cout<<"Los corrales quedaron: "<<endl;
+                    cout<<"Corral de "<<jugadores2<<": ";
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] << " ";
+                    }
+
+                    cout<<endl<<"Corral de "<<jugadores1<<": ";
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] << " ";
+                    }
+                }
             }
     }
     else if(opcion == 2)

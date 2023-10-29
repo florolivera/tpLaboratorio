@@ -135,6 +135,8 @@ int main()
         cout<<"proximamente...";
     }
 
+    ///parte inicial casi completa
+
 
 
     return 0;

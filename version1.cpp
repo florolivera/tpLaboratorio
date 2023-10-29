@@ -204,7 +204,7 @@ int main()
             dadoResultado = 2;
             if(dadoResultado == 1)
             {
-                cout<<"seleccione una carta (1 - 5): "<<endl;
+                cout<<endl<<"Seleccione una carta (1 - 5): "<<endl;
                 if(jugadorComienza == 1)
                 {
                     for (int i = 0; i < 5; i++)
@@ -234,7 +234,7 @@ int main()
                     cin>>cartaSeleccionada;
                     cartaEliminada = jugador2[cartaSeleccionada - 1];
                     jugador2[cartaSeleccionada - 1] = "";
-                    cout<<"Se intergambia la carta: "<<cartaEliminada<<endl;
+                    cout<<"Se intercambia la carta: "<<cartaEliminada<<endl;
                     jugador2[cartaSeleccionada -1] = alMazo(jugador1, jugador2);
                     cout<<"carta robada del mazo: "<<jugador2[cartaSeleccionada - 1];
                     cout<<endl<<"Ahora el mazo de "<<jugadores2<<" quedo: "<<endl;
@@ -259,7 +259,7 @@ int main()
                     cin>>cartaSeleccionada;
                     cartaEliminada = jugador2[cartaSeleccionada - 1];
                     jugador2[cartaSeleccionada - 1] = "";
-                    cout<<"Se intergambia la carta: "<<cartaEliminada<<endl;
+                    cout<<"Se intercambia la carta: "<<cartaEliminada<<endl;
                     jugador2[cartaSeleccionada -1] = alMazo(jugador1, jugador2);
                     cout<<"carta robada del mazo: "<<jugador2[cartaSeleccionada - 1];
                     cout<<endl<<"Ahora el mazo de "<<jugadores2<<" quedo: "<<endl;

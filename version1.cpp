@@ -178,6 +178,10 @@ int main()
     vector<string> cartasBloqueadasJugador2;
     bool jugador1Ordenado = false;
     bool jugador2Ordenado = false;
+    int partidasJugador1 = 0;
+    int partidasJugador2 = 0;
+    int vueltas = 0;
+    int jugadorComienza;
 
 
     cout << "CLUTCH" << endl << "------------" << endl;
@@ -193,12 +197,21 @@ int main()
             cin >> jugadores2;
 
             /*==========SE LES ASIGNA LAS CARTAS DEL CORRAL=============*/
+
+            //si el corral de alguno queda ordenado se vuelve a repartir
+        do{
             for (int i = 0; i < 5; i++)
             {
                 jugador1.push_back(todasLasCartas[i]);
                 jugador2.push_back(todasLasCartas[i + 5]);
             }
 
+            jugador1Ordenado = ordenado(jugador1);
+            jugador2Ordenado = ordenado(jugador2);
+        }while(jugador1Ordenado || jugador2Ordenado);
+        do{
+            vueltas++;
+            cout<<"VUELTA: "<<vueltas<<endl;
             vector<int> contadores1 = contabilizar(jugador1);
             vector<int> contadores2 = contabilizar(jugador2);
 
@@ -230,18 +243,22 @@ int main()
             int js2 = contadores2[3];
             int dieces2 = contadores2[4];
 
-            int jugadorComienza;
+
             jugador1Ordenado = ordenado(jugador1);
             jugador2Ordenado = ordenado(jugador2);
 
 
-            if(jugador1Ordenado)
+            if(vueltas < 1)
             {
-                jugadorComienza = 1;
-            }
-            else if(jugador2Ordenado)
-            {
-                jugadorComienza = 2;
+                if(jugadorComienza == 1)
+                {
+                    jugadorComienza = 2;
+                }
+                else
+                {
+                    jugadorComienza = 1;
+                }
+
             }
             else if (ases1 > ases2 || (ases1 == ases2 && ks1 > ks2) || (ases1 == ases2 && ks1 == ks2 && qs1 > qs2) ||
                 (ases1 == ases2 && ks1 == ks2 && qs1 == qs2 && js1 > js2) ||
@@ -269,8 +286,7 @@ int main()
             int cartaSeleccionada;
             string cartaEliminada;
 
-            //ELIMINAR, PRUEBA....
-            dadoResultado = 2;
+
             if(dadoResultado == 6)
             {
                 int accion;
@@ -541,6 +557,29 @@ int main()
                     jugador2[cartaABloquear - 1] = "";
                 }
             }
+
+
+            /*===========DETERMINAR PARTIDA GANADA============*/
+            jugador1Ordenado = false;
+            jugador2Ordenado = false;
+
+            jugador1Ordenado = ordenado(jugador1);
+            jugador2Ordenado = ordenado(jugador2);
+
+            if(jugador1Ordenado)
+            {
+                partidasJugador1++;
+                cout<<endl<<"Partida ganada por: "<<jugadores1<<endl;
+            }
+
+            if(jugador2Ordenado)
+            {
+                partidasJugador2++;
+                 cout<<endl<<"Partida ganada por: "<<jugadores2<<endl;
+            }
+
+
+        }while(!(jugador1Ordenado || jugador2Ordenado));
 
     }
     else if(opcion == 2)

@@ -49,6 +49,33 @@ vector<int> contabilizar(const vector<string>& mano)
     return contadores;
 }
 
+/*=======================FUNCION PARA VECTOR ORDENADO===================*/
+
+bool ordenado(vector<string>& vector1)
+{
+    bool bandera = false;
+
+    if (vector1[0] == "10 DIAMANTES" || vector1[0] == "10 CORAZONES" || vector1[0] == "10 TREBOLES" || vector1[0] == "10 ESPADAS")
+    {
+        if (vector1[1] == "J DIAMANTES" || vector1[1] == "J CORAZONES" || vector1[1] == "J TREBOLES" || vector1[1] == "J ESPADAS")
+        {
+            if (vector1[2] == "Q DIAMANTES" || vector1[2] == "Q CORAZONES" || vector1[2] == "Q TREBOLES" || vector1[2] == "Q ESPADAS")
+            {
+                if (vector1[3] == "K DIAMANTES" || vector1[3] == "K CORAZONES" || vector1[3] == "K TREBOLES" || vector1[3] == "K ESPADAS")
+                {
+                    if (vector1[4] == "A DIAMANTES" || vector1[4] == "A CORAZONES" || vector1[4] == "A TREBOLES" || vector1[4] == "A ESPADAS")
+                    {
+                        bandera = true;
+                    }
+                }
+            }
+        }
+    }
+
+    return bandera;
+}
+
+
 /*===========================FUNCION CAMBIO DE ORDEN=====================*/
 vector<string> cambioOrden(vector<string>& vector1, int cartaSeleccionada1, int cartaSeleccionada2)
 {
@@ -147,6 +174,11 @@ int main()
     vector<string> jugador1, jugador2;
     int opcion;
     string jugadores1, jugadores2;
+    vector<string> cartasBloqueadasJugador1;
+    vector<string> cartasBloqueadasJugador2;
+    bool jugador1Ordenado = false;
+    bool jugador2Ordenado = false;
+
 
     cout << "CLUTCH" << endl << "------------" << endl;
     cout << "1-JUGAR" << endl << "2-ESTADISTICAS" << endl << "3-CREDITOS" << endl;
@@ -199,8 +231,19 @@ int main()
             int dieces2 = contadores2[4];
 
             int jugadorComienza;
+            jugador1Ordenado = ordenado(jugador1);
+            jugador2Ordenado = ordenado(jugador2);
 
-            if (ases1 > ases2 || (ases1 == ases2 && ks1 > ks2) || (ases1 == ases2 && ks1 == ks2 && qs1 > qs2) ||
+
+            if(jugador1Ordenado)
+            {
+                jugadorComienza = 1;
+            }
+            else if(jugador2Ordenado)
+            {
+                jugadorComienza = 2;
+            }
+            else if (ases1 > ases2 || (ases1 == ases2 && ks1 > ks2) || (ases1 == ases2 && ks1 == ks2 && qs1 > qs2) ||
                 (ases1 == ases2 && ks1 == ks2 && qs1 == qs2 && js1 > js2) ||
                 (ases1 == ases2 && ks1 == ks2 && qs1 == qs2 && js1 == js2 && dieces1 > dieces2))
             {
@@ -220,14 +263,14 @@ int main()
             if(t == 'T' || t == 't')
             {
                 dadoResultado = dado();
-                cout<<"RESULTADO DEL DADO: "<<dadoResultado;
+                cout<<"RESULTADO DEL DADO: "<<dadoResultado<<endl;
             }
 
             int cartaSeleccionada;
             string cartaEliminada;
 
             //ELIMINAR, PRUEBA....
-            dadoResultado = 6;
+            dadoResultado = 2;
             if(dadoResultado == 6)
             {
                 int accion;
@@ -237,7 +280,6 @@ int main()
                 cout<<"3- elegir una carta de su contrincante para agregar a su corral."<<endl;
                 cout<<"4- intercambiar el orden de dos cartas de su corral."<<endl;
                 cout<<"5- bloquear carta de su corral para que el contrincante no accione sobre ella."<<endl;
-                cout<<"6- pasar de turno."<<endl;
                 cin>>accion;
                 dadoResultado = accion;
             }
@@ -248,7 +290,7 @@ int main()
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                    cout << jugador1[i] <<"("<<i+1<<")"<< ": ";
+                        cout << jugador1[i] <<"("<<i+1<<")"<< ": ";
                     }
                     cin>>cartaSeleccionada;
                     cartaEliminada = jugador1[cartaSeleccionada - 1];
@@ -267,7 +309,7 @@ int main()
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                    cout << jugador2[i] <<"("<<i+1<<")"<< " ";
+                        cout << jugador2[i] <<"("<<i+1<<")"<< " ";
                     }
                     cout<<": ";
                     cin>>cartaSeleccionada;
@@ -293,7 +335,10 @@ int main()
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                    cout << jugador2[i] <<"("<<i+1<<")"<< ": ";
+                        if (find(cartasBloqueadasJugador2.begin(), cartasBloqueadasJugador2.end(), jugador2[i]) == cartasBloqueadasJugador2.end())
+                            {
+                                cout << jugador2[i] << "(" << i + 1 << "): ";
+                            }
                     }
                     cin>>cartaSeleccionada;
                     cartaEliminada = jugador2[cartaSeleccionada - 1];
@@ -312,8 +357,12 @@ int main()
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                    cout << jugador1[i] <<"("<<i+1<<")"<< ": ";
+                        if (find(cartasBloqueadasJugador1.begin(), cartasBloqueadasJugador1.end(), jugador1[i]) == cartasBloqueadasJugador1.end())
+                            {
+                                cout << jugador1[i] << "(" << i + 1 << "): ";
+                            }
                     }
+
                     cin>>cartaSeleccionada;
                     cartaEliminada = jugador1[cartaSeleccionada - 1];
                     jugador1[cartaSeleccionada - 1] = "";
@@ -338,9 +387,12 @@ int main()
                 {
 
                     cout << "Seleccione la carta del corral de " << jugadores1 << ": " << endl;
-                    for (int i = 0; i < 5; i++)
+                   for (int i = 0; i < 5; i++)
                     {
-                        cout << jugador1[i] << "(" << i + 1 << "): ";
+                        if (find(cartasBloqueadasJugador1.begin(), cartasBloqueadasJugador1.end(), jugador1[i]) == cartasBloqueadasJugador1.end())
+                            {
+                                cout << jugador1[i] << "(" << i + 1 << "): ";
+                            }
                     }
                     cin >> cartaPropia;
                     seleccionada1 = jugador1[cartaPropia-1];
@@ -348,7 +400,10 @@ int main()
                     cout << "Seleccione la carta del corral de " << jugadores2 << ": " << endl;
                     for (int i = 0; i < 5; i++)
                     {
-                        cout << jugador2[i] << "(" << i + 1 << "): ";
+                        if (find(cartasBloqueadasJugador2.begin(), cartasBloqueadasJugador2.end(), jugador2[i]) == cartasBloqueadasJugador2.end())
+                            {
+                                cout << jugador2[i] << "(" << i + 1 << "): ";
+                            }
                     }
                     cin >> cartaContrario;
                     seleccionada2 = jugador2[cartaContrario-1];
@@ -365,14 +420,11 @@ int main()
                     cout<<endl<<"Corral de "<<jugadores2<<": ";
                     for (int i = 0; i < 5; i++)
                     {
-                        cout << jugador2[i] << " ";
+                        if (find(cartasBloqueadasJugador2.begin(), cartasBloqueadasJugador2.end(), jugador2[i]) == cartasBloqueadasJugador2.end())
+                            {
+                                cout << jugador2[i] << "(" << i + 1 << "): ";
+                            }
                     }
-
-
-
-
-
-
                 }
                 else
                 {
@@ -458,6 +510,38 @@ int main()
                 }
 
             }
+            if (dadoResultado == 5)
+            {
+                int cartaABloquear;
+                cout << "Elija una carta de su corral para bloquear (1-5): "<<endl;
+
+                if (jugadorComienza == 1)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador1[i] <<"("<<i+1<<")"<< " ";
+                    }
+                    cin >> cartaABloquear;
+                    cartasBloqueadasJugador1.push_back(jugador1[cartaABloquear - 1]);
+                }
+                else
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cout << jugador2[i] <<"("<<i+1<<")"<< " ";
+                    }
+                    cin >> cartaABloquear;
+                    cartasBloqueadasJugador2.push_back(jugador2[cartaABloquear - 1]);
+                }
+                if (jugadorComienza == 1)
+                {
+                    jugador1[cartaABloquear - 1] = "";
+                } else
+                {
+                    jugador2[cartaABloquear - 1] = "";
+                }
+            }
+
     }
     else if(opcion == 2)
     {

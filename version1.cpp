@@ -185,9 +185,10 @@ int main()
     int partidasTotales = 0;
     bool cartaRobadaJ1 = false, cartaRobadaJ2 = false, dado6Jugador1=false, dado6Jugador2=false;
 
-
-    cout << "CLUTCH" << endl << "------------------------------" << endl;
-    cout << "1-JUGAR" << endl << "2-ESTADISTICAS" << endl << "3-CREDITOS" << endl;
+do{
+    cout << endl << "CLUTCH" << endl << "------------------------------" << endl;
+    cout << "1-JUGAR" << endl << "2-ESTADISTICAS" << endl << "3-CREDITOS" << endl << "------------------------------" << endl;
+    cout << endl << "0 - SALIR" <<endl;
     cin >> opcion;
     cout << endl;
     if(opcion == 1)
@@ -696,7 +697,11 @@ int main()
         cout<<"CREDITOS: "<<endl;
         cout<<"Florencia Susana Olivera "<<"26905";
     }
-
+    else if(opcion == 0)
+    {
+        break;
+    }
+}while(opcion != 0);
 
 
 

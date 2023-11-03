@@ -182,6 +182,8 @@ int main()
     int partidasJugador2 = 0;
     int vueltas = 0;
     int jugadorComienza;
+    int partidasTotales = 0;
+    bool cartaRobadaJ1 = false, cartaRobadaJ2 = false;
 
 
     cout << "CLUTCH" << endl << "------------" << endl;
@@ -198,7 +200,7 @@ int main()
 
             /*==========SE LES ASIGNA LAS CARTAS DEL CORRAL=============*/
 
-            //si el corral de alguno queda ordenado se vuelve a repartir
+            //si el corral de alguno queda ordenado se vuelve a repartir!!
         do{
             for (int i = 0; i < 5; i++)
             {
@@ -209,6 +211,8 @@ int main()
             jugador1Ordenado = ordenado(jugador1);
             jugador2Ordenado = ordenado(jugador2);
         }while(jugador1Ordenado || jugador2Ordenado);
+
+        //arranca la partida
         do{
             vueltas++;
             cout<<"VUELTA: "<<vueltas<<endl;
@@ -441,6 +445,7 @@ int main()
                                 cout << jugador2[i] << "(" << i + 1 << "): ";
                             }
                     }
+                    cartaRobadaJ2 = true;
                 }
                 else
                 {
@@ -477,6 +482,7 @@ int main()
                     {
                         cout << jugador1[i] << " ";
                     }
+                    cartaRobadaJ2 = true;
                 }
             }
             if(dadoResultado == 4)
@@ -568,14 +574,32 @@ int main()
 
             if(jugador1Ordenado)
             {
-                partidasJugador1++;
+                partidasJugador1+=15;
+                partidasTotales++;
                 cout<<endl<<"Partida ganada por: "<<jugadores1<<endl;
+                if(dadoResultado == 3)
+                {
+                    partidasJugador1+=10;
+                }
+                if(!cartaRobadaJ1)
+                {
+                    partidasJugador1+=5;
+                }
             }
 
             if(jugador2Ordenado)
             {
-                partidasJugador2++;
+                partidasJugador2+=15;
+                partidasTotales++;
                  cout<<endl<<"Partida ganada por: "<<jugadores2<<endl;
+                 if(dadoResultado == 3)
+                 {
+                    partidasJugador2=10;
+                 }
+                 if(!cartaRobadaJ2)
+                {
+                    partidasJugador2+=5;
+                }
             }
 
 
@@ -584,11 +608,22 @@ int main()
     }
     else if(opcion == 2)
     {
-        cout<<"proximamente... ";
+
+
+        cout << "ESTADISTICAS: " << endl;
+
+        float porcentajeJ1, porcentajeJ2;
+
+        porcentajeJ1 = (static_cast<float>(partidasJugador1) / (partidasJugador1+partidasJugador2)) * 100;
+        porcentajeJ2 = (static_cast<float>(partidasJugador2) / (partidasJugador1+partidasJugador2)) * 100;
+
+        cout << "Porcentaje de partidas ganadas por el Jugador 1: " << porcentajeJ1 << "%" << endl;
+        cout << "Porcentaje de partidas ganadas por el Jugador 2: " << porcentajeJ2 << "%" << endl;
+
     }
     else if(opcion == 3)
     {
-        cout<<"proximamente...";
+
     }
 
 

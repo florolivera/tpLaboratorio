@@ -183,20 +183,39 @@ int main()
     int vueltas = 0;
     int jugadorComienza;
     int partidasTotales = 0;
-    bool cartaRobadaJ1 = false, cartaRobadaJ2 = false;
+    bool cartaRobadaJ1 = false, cartaRobadaJ2 = false, dado6Jugador1=false, dado6Jugador2=false;
 
 
-    cout << "CLUTCH" << endl << "------------" << endl;
+    cout << "CLUTCH" << endl << "------------------------------" << endl;
     cout << "1-JUGAR" << endl << "2-ESTADISTICAS" << endl << "3-CREDITOS" << endl;
     cin >> opcion;
     cout << endl;
     if(opcion == 1)
     {
-            cout << "Ha seleccionado la opcion 1." << endl;
-            cout << "Nombre del primer jugador: ";
-            cin >> jugadores1;
-            cout << "Nombre del segundo jugador: ";
-            cin >> jugadores2;
+        cout << "CLUTCH" << endl << "-------------------------------" << endl;
+
+            char opcion;
+            bool confirmar = true;
+            while(confirmar)
+            {
+                cout << "Antes de comenzar deben registrar sus nombres: " << endl;
+                cout << "¿Nombre?";
+                cin >> jugadores1;
+                cout << "¿Nombre?";
+                cin >> jugadores2;
+                cout<<endl<<"¿Confirmar nombres? (S/N) ";
+                cin>>opcion;
+                cout<<endl<<"-------------------------------"<<endl;
+
+                if(opcion == 's' || opcion == 'S')
+                {
+                    confirmar = false;
+                }
+
+
+            }
+
+
 
             /*==========SE LES ASIGNA LAS CARTAS DEL CORRAL=============*/
 
@@ -215,11 +234,12 @@ int main()
         //arranca la partida
         do{
             vueltas++;
-            cout<<"VUELTA: "<<vueltas<<endl;
+            cout<<endl<<"#RONDA "<<vueltas<<endl;
+            cout<<jugadores1<<" VS "<<jugadores2<<endl;
             vector<int> contadores1 = contabilizar(jugador1);
             vector<int> contadores2 = contabilizar(jugador2);
 
-            cout << "Cartas de "<<jugadores1<<": ";
+            /*cout << "Cartas de "<<jugadores1<<": ";
             for (int i = 0; i < 5; i++)
             {
                 cout << jugador1[i] << " ";
@@ -231,7 +251,7 @@ int main()
             {
                 cout << jugador2[i] << " ";
             }
-            cout << endl;
+            cout << endl;*/
 
             /*================SE SELECCIONA EL JUGADOR QUE INICIA==============*/
 
@@ -252,15 +272,17 @@ int main()
             jugador2Ordenado = ordenado(jugador2);
 
 
-            if(vueltas < 1)
+            if(vueltas != 0)
             {
                 if(jugadorComienza == 1)
                 {
                     jugadorComienza = 2;
+                    cout<<endl<<"TURNO DE "<<jugadores2<<endl;
                 }
                 else
                 {
                     jugadorComienza = 1;
+                    cout<<endl<<"TURNO DE "<<jugadores1<<endl;
                 }
 
             }
@@ -268,24 +290,44 @@ int main()
                 (ases1 == ases2 && ks1 == ks2 && qs1 == qs2 && js1 > js2) ||
                 (ases1 == ases2 && ks1 == ks2 && qs1 == qs2 && js1 == js2 && dieces1 > dieces2))
             {
-                cout << "Comienza a jugar el jugador: " << jugadores1 << endl;
+
                 jugadorComienza = 1;
+                cout<<endl<<"TURNO DE "<<jugadores1<<endl;
             }
             else
             {
-                cout << "Comienza a jugar el jugador: "<< jugadores2 << endl;
                 jugadorComienza = 2;
+                cout<<endl<<"TURNO DE "<<jugadores2<<endl;
             }
 
-            char t;
-            int dadoResultado;
-            cout<<"Ingrese 'T' para lanzar el dado: ";
-            cin>>t;
-            if(t == 'T' || t == 't')
+            cout<<endl<<"+-----------------------+"<<endl;
+            cout<<"|                       |"<<endl;
+            cout <<"| "<<jugadores1<<"                   |"<<endl;
+            for (int i = 0; i < 5; i++)
             {
-                dadoResultado = dado();
-                cout<<"RESULTADO DEL DADO: "<<dadoResultado<<endl;
+                cout << "|    "<<jugador1[i] << "        |"<<endl;
             }
+            cout<<"|                       |"<<endl;
+            cout <<"|                       |"<<endl;
+            cout<<"+-----------------------+"<<endl;
+
+            cout << endl << endl;
+            cout<<endl<<"+-----------------------+"<<endl;
+            cout<<"|                       |"<<endl;
+            cout <<"| "<<jugadores2<<"                    |"<<endl;
+            for (int i = 0; i < 5; i++)
+            {
+                cout << "|    "<<jugador2[i] << "        |"<<endl;
+            }
+            cout<<"|                       |"<<endl;
+            cout <<"|                       |"<<endl;
+            cout<<"+-----------------------+"<<endl;
+            cout << endl;
+
+            int dadoResultado;
+            dadoResultado = dado();
+            cout<<endl<<"LANZAMIENTO DADO #"<<dadoResultado<<endl;
+
 
             int cartaSeleccionada;
             string cartaEliminada;
@@ -300,12 +342,25 @@ int main()
                 cout<<"3- elegir una carta de su contrincante para agregar a su corral."<<endl;
                 cout<<"4- intercambiar el orden de dos cartas de su corral."<<endl;
                 cout<<"5- bloquear carta de su corral para que el contrincante no accione sobre ella."<<endl;
+                cout<<"6- pasar de turno."<<endl;
                 cin>>accion;
                 dadoResultado = accion;
+
+                if(accion == 6)
+                {
+                    if(jugadorComienza == 1)
+                    {
+                        dado6Jugador1 = true;
+                    }
+                    else
+                    {
+                        dado6Jugador2 = true;
+                    }
+                }
             }
             if(dadoResultado == 1)
             {
-                cout<<endl<<"Seleccione una carta (1 - 5): "<<endl;
+                cout<<endl<<"Intercambiar una carta de su corral por una del mazo: "<<endl;
                 if(jugadorComienza == 1)
                 {
                     for (int i = 0; i < 5; i++)
@@ -350,7 +405,7 @@ int main()
             }
             if(dadoResultado == 2)
             {
-                cout<<"seleccione una carta de su oponente (1 - 5): "<<endl;
+                cout<<"Elegir una carta de su contrincante cambiarla por una del mazo: "<<endl;
                 if(jugadorComienza == 1)
                 {
                     for (int i = 0; i < 5; i++)
@@ -402,7 +457,7 @@ int main()
             {
                 int cartaPropia, cartaContrario;
                 string seleccionada1, seleccionada2;
-
+                cout<<"Elegir una carta de su contrincante para agregar a su corral"<<endl;
                 if(jugadorComienza == 1)
                 {
 
@@ -535,7 +590,7 @@ int main()
             if (dadoResultado == 5)
             {
                 int cartaABloquear;
-                cout << "Elija una carta de su corral para bloquear (1-5): "<<endl;
+                cout << "bloquear carta de su corral para que el contrincante no accione sobre ella."<<endl;
 
                 if (jugadorComienza == 1)
                 {
@@ -585,6 +640,10 @@ int main()
                 {
                     partidasJugador1+=5;
                 }
+                if(dado6Jugador1)
+                {
+                    partidasJugador1+=10;
+                }
             }
 
             if(jugador2Ordenado)
@@ -600,30 +659,42 @@ int main()
                 {
                     partidasJugador2+=5;
                 }
+                if(dado6Jugador2)
+                {
+                    partidasJugador2+=10;
+                }
             }
 
 
         }while(!(jugador1Ordenado || jugador2Ordenado));
 
+        if(partidasJugador2 > partidasJugador1)
+        {
+            cout<<endl<<"GANADOR: "<<jugadores2<<" con "<<partidasJugador2<<" puntos de victoria."<<endl;
+        }
+        else
+        {
+            cout<<endl<<"GANADOR: "<<jugadores1<<" con "<<partidasJugador1<<" puntos de victoria."<<endl;
+        }
     }
     else if(opcion == 2)
     {
 
+        if(partidasJugador2 > partidasJugador1)
+        {
+            cout<<endl<<"GANADOR: "<<jugadores2<<" con "<<partidasJugador2<<" puntos de victoria."<<endl;
+        }
+        else
+        {
+            cout<<endl<<"GANADOR: "<<jugadores1<<" con "<<partidasJugador1<<" puntos de victoria."<<endl;
+        }
 
-        cout << "ESTADISTICAS: " << endl;
-
-        float porcentajeJ1, porcentajeJ2;
-
-        porcentajeJ1 = (static_cast<float>(partidasJugador1) / (partidasJugador1+partidasJugador2)) * 100;
-        porcentajeJ2 = (static_cast<float>(partidasJugador2) / (partidasJugador1+partidasJugador2)) * 100;
-
-        cout << "Porcentaje de partidas ganadas por el Jugador 1: " << porcentajeJ1 << "%" << endl;
-        cout << "Porcentaje de partidas ganadas por el Jugador 2: " << porcentajeJ2 << "%" << endl;
 
     }
     else if(opcion == 3)
     {
-
+        cout<<"CREDITOS: "<<endl;
+        cout<<"Florencia Susana Olivera "<<"26905";
     }
 
 
